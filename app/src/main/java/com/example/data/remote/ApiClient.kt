@@ -12,6 +12,8 @@ import okhttp3.Route
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -116,14 +118,11 @@ object ApiClient {
             val refreshBody = moshi.adapter(RefreshTokenRequest::class.java)
                 .toJson(refreshRequest)
 
+            val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
+            val requestBody = refreshBody.toRequestBody(mediaType)
             val refreshHttpRequest = Request.Builder()
                 .url("${currentBaseUrl}api/v1/auth/refresh")
-                .post(
-                    okhttp3.RequestBody.create(
-                        okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                        refreshBody
-                    )
-                )
+                .post(requestBody)
                 .build()
 
             return try {
