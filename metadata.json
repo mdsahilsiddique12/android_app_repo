@@ -1,0 +1,6 @@
+{
+  "name": "Path Lab Pro Mobile",
+  "description": "Mobile companion for Path Lab Pro desktop. Generates laboratory reports, test result entry, offline templates, PDF preview, and synchronization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
