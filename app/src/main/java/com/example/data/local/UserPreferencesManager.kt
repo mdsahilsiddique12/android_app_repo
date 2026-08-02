@@ -30,6 +30,7 @@ class UserPreferencesManager(private val context: Context) : AuthTokenProvider {
         val KEY_AUTO_PRINT = booleanPreferencesKey("auto_print")
         val KEY_LAST_SYNC_TIMESTAMP = longPreferencesKey("last_sync_timestamp")
         val KEY_USER_ID = stringPreferencesKey("user_id")
+        val KEY_IS_REGISTERED = booleanPreferencesKey("is_registered")
     }
 
     val labIdFlow: Flow<String> = context.dataStore.data.map { prefs ->
@@ -50,6 +51,10 @@ class UserPreferencesManager(private val context: Context) : AuthTokenProvider {
 
     val isLoggedInFlow: Flow<Boolean> = context.dataStore.data.map { prefs ->
         prefs[KEY_IS_LOGGED_IN] ?: false
+    }
+
+    val isRegisteredFlow: Flow<Boolean> = context.dataStore.data.map { prefs ->
+        prefs[KEY_IS_REGISTERED] ?: false
     }
 
     val isBiometricEnabledFlow: Flow<Boolean> = context.dataStore.data.map { prefs ->
@@ -105,6 +110,14 @@ class UserPreferencesManager(private val context: Context) : AuthTokenProvider {
             if (userId.isNotBlank()) {
                 prefs[KEY_USER_ID] = userId
             }
+            // If they login successfully, they are also registered
+            prefs[KEY_IS_REGISTERED] = true
+        }
+    }
+
+    suspend fun saveRegistrationComplete() {
+        context.dataStore.edit { prefs ->
+            prefs[KEY_IS_REGISTERED] = true
         }
     }
 

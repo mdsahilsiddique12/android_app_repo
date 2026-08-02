@@ -34,6 +34,17 @@ data class TokenResponse(
     @Json(name = "lab_id") val labId: String = ""
 )
 
+
+@JsonClass(generateAdapter = true)
+data class UserCreateRequest(
+    @Json(name = "email") val email: String,
+    @Json(name = "username") val username: String,
+    @Json(name = "full_name") val fullName: String,
+    @Json(name = "phone") val phone: String? = null,
+    @Json(name = "role") val role: String = "LAB_TECH",
+    @Json(name = "password") val password: String
+)
+
 @JsonClass(generateAdapter = true)
 data class UserResponse(
     @Json(name = "id") val id: String = "",
@@ -253,6 +264,9 @@ data class PatientApiResponse(
 interface PathLabApiService {
 
     // ── Authentication ──────────────────────────────────────────────────────
+    @POST("api/v1/auth/register")
+    suspend fun register(@Body request: UserCreateRequest): Response<UserResponse>
+
     @POST("api/v1/auth/login")
     suspend fun login(@Body request: LoginRequest): Response<TokenResponse>
 

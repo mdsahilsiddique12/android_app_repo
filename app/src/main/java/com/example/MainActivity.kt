@@ -13,6 +13,10 @@ import com.example.data.remote.ApiClient
 import com.example.ui.navigation.AppNavGraph
 import com.example.ui.theme.PathLabProTheme
 
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.example.ui.navigation.Screen
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +30,16 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    AppNavGraph(navController = navController)
+                    val isLoggedIn by prefs.isLoggedInFlow.collectAsState(initial = false)
+                    val isRegistered by prefs.isRegisteredFlow.collectAsState(initial = false)
+
+                    val startRoute = when {
+                        isLoggedIn -> Screen.Dashboard.route
+                        isRegistered -> Screen.Login.route
+                        else -> Screen.Register.route
+                    }
+
+                    AppNavGraph(navController = navController, startDestination = startRoute)
                 }
             }
         }

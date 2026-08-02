@@ -1,6 +1,7 @@
 package com.example.ui.navigation
 
 sealed class Screen(val route: String) {
+    object Register : Screen("register")
     object Login : Screen("login")
     object Dashboard : Screen("dashboard")
     object ReportWizard : Screen("report_wizard")

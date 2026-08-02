@@ -9,6 +9,8 @@ import com.example.ui.screens.dashboard.DashboardScreen
 import com.example.ui.screens.dashboard.DashboardViewModel
 import com.example.ui.screens.login.LoginScreen
 import com.example.ui.screens.login.LoginViewModel
+import com.example.ui.screens.register.RegisterScreen
+import com.example.ui.screens.register.RegisterViewModel
 import com.example.ui.screens.reports.RecentReportsScreen
 import com.example.ui.screens.reports.RecentReportsViewModel
 import com.example.ui.screens.search.PatientSearchScreen
@@ -31,6 +33,23 @@ fun AppNavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
+        composable(Screen.Register.route) {
+            val viewModel: RegisterViewModel = viewModel()
+            RegisterScreen(
+                viewModel = viewModel,
+                onRegisterSuccess = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Register.route) { inclusive = true }
+                    }
+                },
+                onNavigateToLogin = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Register.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(Screen.Login.route) {
             val viewModel: LoginViewModel = viewModel()
             LoginScreen(
