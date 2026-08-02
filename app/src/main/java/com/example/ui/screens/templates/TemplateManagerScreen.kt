@@ -113,12 +113,12 @@ fun TemplateManagerScreen(
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text("Connected Account: ${uiState.driveStatus.accountEmail}", fontSize = 12.sp)
+                    Text("Backend Synced Templates: ${uiState.totalTemplates}", fontSize = 12.sp)
                     Text("Cached Local Templates: ${uiState.templates.size} DOCX Files", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Button(
-                        onClick = viewModel::syncDriveTemplates,
+                        onClick = viewModel::syncTemplates,
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
                         enabled = !uiState.isSyncing

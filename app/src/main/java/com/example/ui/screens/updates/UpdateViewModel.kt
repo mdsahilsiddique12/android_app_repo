@@ -31,7 +31,7 @@ class UpdateViewModel : ViewModel() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isChecking = true)
             kotlinx.coroutines.delay(800)
-            val info = updateManager.checkForUpdates("1.0.0")
+            val info = updateManager.checkForUpdates(1)
             _uiState.value = _uiState.value.copy(isChecking = false, updateInfo = info)
         }
     }
