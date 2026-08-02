@@ -30,7 +30,7 @@ class TemplateManager(
     private val templatesDir: File
         get() = File(context.filesDir, "templates").apply { if (!exists()) mkdirs() }
 
-    fun getTemplatesDir(): File = templatesDir
+
 
     fun getTemplatesFlow(): Flow<List<ReportTemplate>> {
         return templateDao.getAllTemplates().map { list ->
